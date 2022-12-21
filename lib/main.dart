@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: TabPage(),
     );
   }
 }
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage>
         children: [FirstApp(), SecondApp()],
       ),
       bottomNavigationBar: TabBar(
-        controller: controller!,
+        controller: controller,
         tabs: <Tab>[
           Tab(
             icon: Icon(
@@ -81,5 +81,44 @@ class _MyHomePageState extends State<MyHomePage>
         ],
       ),
     );
+  }
+}
+
+
+/*
+* DefaultTabController를 사용해서 tab 구현하기
+* https://api.flutter.dev/flutter/material/DefaultTabController-class.html
+* */
+class TabPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('TabBar example'),
+          ),
+          body: TabBarView(
+            children: [FirstApp(), SecondApp()],
+          ),
+          bottomNavigationBar: TabBar(
+            tabs: <Tab>[
+              Tab(
+                icon: Icon(
+                  Icons.looks_one,
+                  color: Colors.blue,
+                ),
+                text: '목록',
+              ),
+              Tab(
+                icon: Icon(
+                  Icons.looks_two,
+                  color: Colors.blue,
+                ),
+                text: '추가하기',
+              ),
+            ],
+          ),
+        ));
   }
 }
