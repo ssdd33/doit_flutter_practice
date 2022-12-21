@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage>
         children: [FirstApp(), SecondApp()],
       ),
       bottomNavigationBar: TabBar(
+        controller: controller!,
         tabs: <Tab>[
           Tab(
             icon: Icon(
