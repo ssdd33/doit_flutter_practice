@@ -1,3 +1,4 @@
+import 'package:doit_flutter_practice/animalItem.dart';
 import 'package:doit_flutter_practice/sub/firstPage.dart';
 import 'package:doit_flutter_practice/sub/secondPage.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TabPage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -30,16 +31,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController? controller;
+  List<Animal> animalList = List.empty(growable: true);
 
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 2, vsync: this);
-    /*
-    * length: 몇 개의 탭을 만들지 지정
-    * vsync: 탭이 이동했을 때 호출되는 콜백 함수를 어디서 처리할지 지정
-    * state클래스에 with 키워드로 SingleTickerProviderStateMixin클래스를 지정하면 vsync : this 오류가 해결됨
-    * 클래스를 추가 상속함으로써 탭을 눌렀을 때 state클래스에서 애니메이션 동작을 처리할 수 있게 함*/
+
+    animalList.add(Animal(animalName:"벌",kind:"곤충",imagePath: "repo/images/bee.png"));
+    animalList.add(Animal(animalName:"고양이",kind:"포유류",imagePath: "repo/images/cat.png"));
+    animalList.add(Animal(animalName:"젖소",kind:"포유류",imagePath: "repo/images/cow.png"));
+    animalList.add(Animal(animalName:"강아지",kind:"포유류",imagePath: "repo/images/dog.png"));
+    animalList.add(Animal(animalName:"여우",kind:"포유류",imagePath: "repo/images/fox.png"));
+    animalList.add(Animal(animalName:"돼지",kind:"포유류",imagePath: "repo/images/pig.png"));
+    animalList.add(Animal(animalName:"늑대",kind:"포유류",imagePath: "repo/images/wolf.png"));
+    animalList.add(Animal(animalName:"원숭이",kind:"영장류",imagePath: "repo/images/monkey.png"));
   }
 
   @override
@@ -59,31 +65,22 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       body: TabBarView(
         controller: controller,
-        children: [FirstApp(), SecondApp()],
+        children: [FirstApp(list:animalList), SecondApp()],
       ),
       bottomNavigationBar: TabBar(
         controller: controller,
+        labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+        labelColor: Colors.black,
         tabs: <Tab>[
           Tab(
-            icon: Icon(
-              Icons.looks_one,
-              color: Colors.blue,
-            ),
             text: '목록',
           ),
-          Tab(
-            icon: Icon(
-              Icons.looks_two,
-              color: Colors.blue,
-            ),
-            text: '추가하기',
-          ),
+          Tab(text: '추가하기'),
         ],
       ),
     );
   }
 }
-
 
 /*
 * DefaultTabController를 사용해서 tab 구현하기

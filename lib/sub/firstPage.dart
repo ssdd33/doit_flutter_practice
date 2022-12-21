@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:doit_flutter_practice/animalItem.dart';
 
 class FirstApp extends StatelessWidget {
+  final List<Animal>? list;
+
+  FirstApp({Key? key, this.list}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('first page'),
+        child: ListView.builder(
+          itemBuilder: (context, position) {
+            return Card(
+              child: Row(
+                children: <Widget>[
+                  Image.asset(list![position].imagePath!,
+                      height: 100, width: 100, fit: BoxFit.contain),
+                  Text(list![position].animalName!)
+                ],
+              ),
+            );
+          },
+          itemCount: list!.length,
+        ),
       ),
     );
   }
