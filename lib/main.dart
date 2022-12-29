@@ -28,17 +28,23 @@ class HttpApp extends StatefulWidget {
 class _HttpAppState extends State<HttpApp> {
   String result = '';
   List data = List.empty(growable: true);
+  TextEditingController? _editingController;
 
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   data = List.empty(growable:true);
-  // }
+  @override
+  void initState(){
+    super.initState();
+    _editingController = new TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Http Example')),
+      appBar: AppBar(title: TextField(
+        controller: _editingController,
+          style:TextStyle(color: Colors.white),
+        keyboardType: TextInputType.text,
+        decoration:InputDecoration(hintText:'검색어를 입력하세요.'),
+      )),
       body: Container(
         child: Center(
           child: data.length == 0
@@ -87,7 +93,7 @@ class _HttpAppState extends State<HttpApp> {
   }
 
   Future<String> getJSONData() async {
-    var url = 'http://dapi.kakao.com/v3/search/book?target=title&query=doit';
+    var url = 'http://dapi.kakao.com/v3/search/book?target=title&query=${_editingController!.value.text}';
     var response = await http.get(Uri.parse(url),
         headers: {"Authorization": "KakaoAK 4e980e571507894e8f5392267de73319"});
     setState(() {
