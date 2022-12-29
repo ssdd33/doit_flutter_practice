@@ -3,8 +3,9 @@ import 'package:doit_flutter_practice/sub/firstPage.dart';
 import 'package:doit_flutter_practice/sub/secondPage.dart';
 import 'package:flutter/material.dart';
 
+import './cupertinoMain.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(CupertinoMain());
 }
 
 class MyApp extends StatelessWidget {
