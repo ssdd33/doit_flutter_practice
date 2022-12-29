@@ -29,21 +29,36 @@ class _HttpAppState extends State<HttpApp> {
   String result = '';
   List data = List.empty(growable: true);
   TextEditingController? _editingController;
+  ScrollController? _scrollController;
+  int page = 1;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _editingController = new TextEditingController();
+    _scrollController = new ScrollController();
+
+    _scrollController!.addListener(() {
+      if (_scrollController!.offset >=
+              _scrollController!.position.maxScrollExtent &&
+          !_scrollController!.position.outOfRange) {
+        //리스트의 마지막일 때 실행
+        print('bottom');
+        page++;
+        getJSONData();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: TextField(
+      appBar: AppBar(
+          title: TextField(
         controller: _editingController,
-          style:TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.text,
-        decoration:InputDecoration(hintText:'검색어를 입력하세요.'),
+        decoration: InputDecoration(hintText: '검색어를 입력하세요.'),
       )),
       body: Container(
         child: Center(
@@ -68,10 +83,11 @@ class _HttpAppState extends State<HttpApp> {
                                       data[index]['title'].toString(),
                                       textAlign: TextAlign.center,
                                     )),
-                                Text('저자 : ${data[index]['authors'].toString()}'),
-                                Text('가격 : ${data[index]['sale_price'].toString()}'),
+                                Text(
+                                    '저자 : ${data[index]['authors'].toString()}'),
+                                Text(
+                                    '가격 : ${data[index]['sale_price'].toString()}'),
                                 Text(data[index]['status'].toString()),
-
                               ],
                             ),
                           ],
@@ -81,11 +97,16 @@ class _HttpAppState extends State<HttpApp> {
                     );
                   },
                   itemCount: data.length,
+            //스크롤 컨트롤러 추가
+            controller: _scrollController,
                 ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
+            // 제목 검색할때마다 페이지, 데이터 초기화
+            page = 1;
+            data!.clear();
             getJSONData();
           },
           child: Icon(Icons.file_download)),
@@ -93,7 +114,8 @@ class _HttpAppState extends State<HttpApp> {
   }
 
   Future<String> getJSONData() async {
-    var url = 'http://dapi.kakao.com/v3/search/book?target=title&query=${_editingController!.value.text}';
+    var url =
+        'http://dapi.kakao.com/v3/search/book?target=title&page=$page&query=${_editingController!.value.text}';
     var response = await http.get(Uri.parse(url),
         headers: {"Authorization": "KakaoAK 4e980e571507894e8f5392267de73319"});
     setState(() {
