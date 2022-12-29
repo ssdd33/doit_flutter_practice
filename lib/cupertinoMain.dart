@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'animalItem.dart';
 import 'iosSub/cupertinoFirstPage.dart';
+import 'iosSub/cupertinoSecondPage.dart';
 
 class CupertinoMain extends StatefulWidget {
   const CupertinoMain({Key? key}) : super(key: key);
@@ -38,11 +39,7 @@ List<Animal> animalList = List.empty(growable: true);
             return CupertinoFirstPage(animalList:animalList);
 
           }else{
-            return Container(
-              child: Center(
-                child:Text('cupertino tab 2'),
-              ),
-            );
+            return CupertinoSecondPage(animalList: animalList);
           }
       },
       )
