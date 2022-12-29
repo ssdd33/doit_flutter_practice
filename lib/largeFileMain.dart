@@ -9,18 +9,31 @@ class LargeFileMain extends StatefulWidget {
 }
 
 class _LargeFileMainState extends State<LargeFileMain> {
-  final imgUrl =
-      'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg'
-      '?auto=compress';
+ TextEditingController? _editingController;
   bool downloading = false;
   var progressString = "";
   String file = "";
 
   @override
+  void initState(){
+    super.initState();
+    _editingController = new TextEditingController(
+      text: 'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg'
+        '?auto=compress'
+    );
+    //text 인자를 통해 컨트롤러 초기값을 설정할 수 있다.
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Large file example'),
+          title: TextField(
+            controller:_editingController,
+            style:TextStyle(color:Colors.white),
+            keyboardType:TextInputType.text,
+            decoration: InputDecoration(hintText: 'url을 입력하세요.'),
+          ),
         ),
         body: Center(
           child: downloading ? Container(
@@ -84,7 +97,7 @@ class _LargeFileMainState extends State<LargeFileMain> {
       var dir =
       await getApplicationDocumentsDirectory(); //path_provider패키지가 제공하며 플러터 앱의 내부 디렉터리를 가져온다.
       // imgUrl에서 내려받음 파일을 내부 디렉터리 안에 myimage.jpg라는 이름으로 저장
-      await dio.download(imgUrl, '${dir.path}/myimage.jpg',
+      await dio.download(_editingController!.value.text, '${dir.path}/myimage.jpg',
           onReceiveProgress: (rec, total) {
             //진행 상황을 표시한다. rec : 지금까지 내려받은 데이터의 크기, total: 전체 파일의 크기
             print('Rec: $rec , Total: $total');
