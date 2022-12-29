@@ -11,7 +11,7 @@ class SecondDetail extends StatelessWidget {
         child:Center(
           child: ElevatedButton(
             onPressed:(){
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/third');
             },
             child: Text('돌아가기'),
           ),
