@@ -27,7 +27,8 @@ class FirstApp extends StatelessWidget {
                   content:Text(
                     '이 동물은 ${list![position].kind}입니다',
                     style:TextStyle(fontSize:30.0),
-                  )
+                  ),
+                  actions: [ElevatedButton(onPressed: (){Navigator.of(context).pop();}, child: Text('확인'))],
                 );
 
                 showDialog(context: context, builder: (BuildContext context)=> dialog);
